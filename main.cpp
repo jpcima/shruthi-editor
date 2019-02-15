@@ -18,6 +18,8 @@
 
 
 #include <QApplication>
+#include <QTranslator>
+#include <QLibraryInfo>
 #ifdef CLEANLOOKS
 #include <QCleanlooksStyle>
 #endif
@@ -54,6 +56,19 @@ int main(int argc, char *argv[]) {
 
     {
         QApplication app(argc, argv);
+
+        QTranslator trApplication;
+        QTranslator trSystem;
+        QString trPath = QApplication::applicationDirPath() + "/../share/shruthi_editor/translations";
+
+        if (trApplication.load(QLocale(), "shruthi_editor", "_", trPath)) {
+                QString trSysPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+                if (!trSystem.load(QLocale(), "qt", "_", trSysPath))
+                    trSystem.load(QLocale(), "qt", "_", trPath);
+                app.installTranslator(&trApplication);
+                app.installTranslator(&trSystem);
+        }
+
 #ifdef FUSION
         app.setStyle(QStyleFactory::create("Fusion"));
 #endif

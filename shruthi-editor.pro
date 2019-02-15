@@ -17,6 +17,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+isEmpty(PREFIX) {
+    win32:PREFIX = C:/shruti-editor
+    else:PREFIX = /usr/local
+}
+
+
 #
 # Source files
 #
@@ -84,6 +90,13 @@ FORMS = \
 RESOURCES = \
     ui/shruthi_editor.qrc
 
+TRANSLATIONS = \
+    translations/shruthi_editor_fr_FR.ts
+
+
+QM_FILES_INSTALL_PATH = $$PREFIX/share/shruthi_editor/translations
+include(translations.pri)
+
 
 #
 # Settings
@@ -136,3 +149,4 @@ win32 {
 
 # install
 INSTALLS += target
+target.path = $$PREFIX/bin
